@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyScout24 - Kundendaten Formular</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Geist+Mono:wght@400&family=Geist:wght@400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #FAFAFA;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: #FAFAFA;
+            border-radius: 12px;
+            border: 1px solid #e1e8ed;
+            padding: 25px 40px 40px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            padding-bottom: 0;
+            max-width: 900px;
+            margin: 0 auto 40px auto;
+        }
+        
+        .logo {
+            font-size: 40px;
+        }
+        
+        h1 {
+            color: #464646;
+            font-size: 28px;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e1e8ed;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+            background: white;
+        }
+        
+        textarea {
+            resize: none;
+        }
+        
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+            cursor: pointer;
+        }
+        
+        select:disabled {
+            cursor: not-allowed;
+            background-color: #f9fafb;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* Ensure consistent height for campaign dropdown */
+        #campaign {
+            font-size: 16px;
+            padding: 12px;
+            padding-right: 36px;
+        }
+        
+        .lookup-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .lookup-section h3 {
+            color: #464646;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-weight: 600;
+        }
+        
+        .search-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .search-btn {
+            background: #d9d9d9;
+            color: #464646;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            font-weight: 400;
+            font-family: 'Geist Mono', monospace;
+            text-transform: uppercase;
+            width: 100%;
+        }
+        
+        .search-btn:hover {
+            background: #c9c9c9;
+        }
+        
+        .search-btn:active {
+            background: #c9c9c9;
+        }
+        
+        .submit-btn {
+            background: #FFF000;
+            color: #464646;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Geist Mono', monospace;
+            font-weight: 400;
+            text-transform: uppercase;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background: #E6DB00;
+        }
+        
+        .submit-btn:active {
+            background: #CCBF00;
+        }
+        
+        .submit-btn:disabled {
+            background: #9ca3af;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+        
+        .status-message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .status-message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+        
+        .status-message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+        
+        .status-message.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #3b82f6;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid #f3f4f6;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Dropdown Placeholder ausgrauen */
+        select {
+            color: #374151;
+        }
+        
+        select:invalid,
+        select[value=""] {
+            color: #9ca3af;
+        }
+        
+        select option[value=""] {
+            color: #9ca3af;
+        }
+        
+        select option:not([value=""]) {
+            color: #374151;
+        }
+        
+        /* Searchable Select Placeholder ausgrauen */
+        .searchable-select input::placeholder {
+            color: #9ca3af;
+        }
+
+        .readonly {
+            background-color: #f9fafb;
+            cursor: not-allowed;
+        }
+        
+        /* Readonly Input spezielle Styles */
+        input[readonly] {
+            background-color: #f9fafb;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+        
+        /* Status Code Select */
+        #statusCode {
+            height: auto;
+            padding: 12px;
+        }
+        
+        #statusCode option {
+            padding: 8px 4px;
+            font-size: 14px;
+        }
+
+        /* Searchable Status Code Dropdown */
+        .searchable-select {
+            position: relative;
+            width: 100%;
+        }
+
+        .searchable-select #statusCodeInput {
+            width: 100%;
+            padding: 12px 40px 12px 12px;
+            border: 1px solid #e1e8ed;
+            border-radius: 6px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            transition: border-radius 0.2s ease;
+        }
+
+        .searchable-select #statusCodeInput:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            cursor: text;
+        }
+
+        .searchable-select #statusCodeInput[readonly] {
+            background: white;
+            cursor: pointer;
+        }
+
+        .searchable-select #salesRepNameInput {
+            width: 100%;
+            padding: 12px 40px 12px 12px;
+            border: 1px solid #e1e8ed;
+            border-radius: 6px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            transition: border-radius 0.2s ease;
+        }
+
+        .searchable-select #salesRepNameInput[readonly] {
+            background: white !important;
+            cursor: pointer;
+        }
+
+        /* Input border-radius anpassen wenn dropdown offen ist */
+        .searchable-select #statusCodeInput.dropdown-open {
+            border-radius: 6px 6px 0 0;
+            border-bottom-color: #667eea;
+        }
+
+        .dropdown-arrow {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .dropdown-arrow.rotated {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .dropdown-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #667eea;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-options.show {
+            display: block;
+        }
+
+        .dropdown-option {
+            padding: 10px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-option:hover {
+            background-color: #f9fafb;
+        }
+
+        .dropdown-option:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-option.hidden {
+            display: none;
+        }
+        
+        select.readonly {
+            background-color: #f9fafb;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #464646;
+            margin: 60px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Bricolage Grotesque', sans-serif;
+        }
+        
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        /* Mehr Abstand zwischen File Upload und erster Section */
+        #mainForm .section-title:first-child {
+            margin-top: 80px;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 0.8fr 1.1fr 1.1fr;
+            gap: 15px;
+        }
+        
+        .customer-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .customer-card.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .customer-card h4 {
+            color: #464646;
+            margin-bottom: 10px;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-weight: 600;
+        }
+        
+        .customer-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .info-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            background: #fafafa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #667eea;
+            background: #f9fafb;
+        }
+        
+        .file-upload-area.dragover {
+            border-color: #667eea;
+            background: #eef2ff;
+        }
+        
+        .file-upload-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+        }
+        
+        .upload-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .upload-main {
+            font-size: 16px;
+            color: #464646;
+            font-weight: 500;
+        }
+        
+        .upload-sub {
+            font-size: 13px;
+            color: #9ca3af;
+        }
+        
+        .file-preview {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .file-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .file-name {
+            font-size: 14px;
+            color: #464646;
+            font-weight: 500;
+        }
+        
+        .file-size {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        
+        .file-remove {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .file-remove:hover {
+            background: #fee2e2;
+        }
+        
+        /* Error States für Input-Felder */
+        .input-error {
+            border-color: #ef4444 !important;
+            background-color: #fef2f2;
+        }
+        
+        /* Tooltip für Error-Messages */
+        .error-tooltip {
+            position: relative;
+        }
+        
+        .error-tooltip::after {
+            content: attr(data-error);
+            position: absolute;
+            top: -35px;
+            left: 0;
+            background: #ef4444;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        .error-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 15px;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #ef4444;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+        
+        .error-tooltip:hover::after,
+        .error-tooltip:hover::before {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Trenntext zwischen Search und File Upload */
+        .separator-text {
+            text-align: center;
+            font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: #464646;
+            opacity: 0.5;
+            margin: 10px 0 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .search-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 0 20px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+
+            /* Status Code Dropdown auf Mobile */
+            .dropdown-options {
+                max-height: 250px;
+            }
+
+            .dropdown-option {
+                padding: 12px;
+                font-size: 15px;
+            }
+
+            /* Custom Campaign/Date Grid auf Mobile */
+            div[style*="grid-template-columns: 3fr 1fr"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Custom PLZ/Stadt/Geburtsdatum Grid auf Mobile */
+            div[style*="grid-template-columns: 2fr 2fr 1fr"] {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>EnergyScout24 Kundendatenbank</h1>
+            <div class="subtitle">Kundensuche & Datenerfassung</div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Kundensuche -->
+        <div class="grid-2">
+            <div class="form-group">
+                <label for="searchOrderId">Nach Auftragsnummer</label>
+                <input type="text" id="searchOrderId" placeholder="z.B. 12345">
+            </div>
+            <div class="form-group">
+                <label for="searchName">Nach Name</label>
+                <input type="text" id="searchName" placeholder="z.B. Müller">
+            </div>
+        </div>
+        
+        <button class="search-btn" onclick="lookupCustomer()">
+            <span id="searchBtnText">Kunde suchen</span>
+        </button>
+        <div id="statusLookup" class="status-message"></div>
+
+        <!-- Trenntext -->
+        <div class="separator-text">
+            Oder Kundendaten direkt erfassen
+        </div>
+
+        <!-- File Upload -->
+        <div class="form-group">
+            <div class="file-upload-area" id="fileUploadArea">
+                <input type="file" id="fileUpload" accept=".pdf,.jpg,.jpeg" style="display: none;">
+                <div class="file-upload-content">
+                    <svg class="upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <div class="upload-text">
+                        <span class="upload-main">Datei hier ablegen oder klicken zum Hochladen</span>
+                        <span class="upload-sub">PDF oder JPEG (max. 10MB)</span>
+                    </div>
+                </div>
+                <div class="file-preview" id="filePreview" style="display: none;">
+                    <div class="file-info">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                            <polyline points="13 2 13 9 20 9"></polyline>
+                        </svg>
+                        <div class="file-details">
+                            <span class="file-name" id="fileName"></span>
+                            <span class="file-size" id="fileSize"></span>
+                        </div>
+                    </div>
+                    <button type="button" class="file-remove" onclick="removeFile()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Card (wird nach erfolgreicher Suche angezeigt) -->
+        <div class="customer-card" id="customerCard">
+            <h4>Gefundener Kunde</h4>
+            <div class="customer-info" id="customerInfo"></div>
+        </div>
+        
+        <!-- Main Form -->
+        <form id="mainForm">
+            <div class="section-title">
+                Kundendaten
+            </div>
+            
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="orderId">Auftragsnummer *</label>
+                    <input type="text" id="orderId" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerSalutation">Anrede *</label>
+                    <select id="customerSalutation" required>
+                        <option value="">Bitte wählen...</option>
+                        <option value="Herr">Herr</option>
+                        <option value="Frau">Frau</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="firstName">Vorname *</label>
+                    <input type="text" id="firstName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName">Nachname *</label>
+                    <input type="text" id="lastName" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="street">Adresse *</label>
+                <input type="text" id="street" required>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 20px;">
+                <div class="form-group">
+                    <label for="zip">PLZ *</label>
+                    <input type="text" id="zip" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="city">Stadt *</label>
+                    <input type="text" id="city" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="birthdate">Geburtsdatum *</label>
+                    <input type="date" id="birthdate" required>
+                </div>
+            </div>
+            
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="phone">Telefon *</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-Mail *</label>
+                    <input type="email" id="email" required>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                Zuweisung
+            </div>
+            
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="salesRepNumber">Nummer Vertriebler *</label>
+                    <select id="salesRepNumber" onchange="updateSalesRepName()" required>
+                        <option value="">Bitte wählen...</option>
+                        <option value="10001">10001</option>
+                        <option value="10002">10002</option>
+                        <option value="10003">10003</option>
+                        <option value="10004">10004</option>
+                        <option value="10005">10005</option>
+                        <option value="10006">10006</option>
+                        <option value="10007">10007</option>
+                        <option value="10008">10008</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="salesRepName">Name Vertriebler *</label>
+                    <div class="searchable-select" id="salesRepContainer">
+                        <input 
+                            type="text" 
+                            id="salesRepNameInput" 
+                            placeholder="Bitte wählen..." 
+                            autocomplete="off"
+                            readonly
+                            onclick="toggleSalesRepDropdown()"
+                            oninput="filterSalesRepOptions()"
+                        >
+                        <div class="dropdown-arrow" onclick="toggleSalesRepDropdown()">
+                            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 1.5L6 6.5L11 1.5" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="dropdown-options" id="salesRepDropdownOptions">
+                            <!-- Wird dynamisch befüllt -->
+                        </div>
+                        <input type="hidden" id="salesRepName" name="salesRepName" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 20px;">
+                <div class="form-group">
+                    <label for="campaign">Kampagne *</label>
+                    <select id="campaign" required>
+                        <option value="">Bitte wählen...</option>
+                        <option value="Door-to-Door">Door-to-Door</option>
+                        <option value="Netzwerk">Netzwerk</option>
+                        <option value="Empfehlung">Empfehlung</option>
+                        <option value="Website & Online">Website & Online</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="recordDate">Anlagedatum *</label>
+                    <input type="date" id="recordDate" required>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                Vertragsdetails
+            </div>
+            
+            <div class="grid-3">
+                <div class="form-group">
+                    <label for="productType">Produkttyp *</label>
+                    <select id="productType" required>
+                        <option value="">Bitte wählen...</option>
+                        <option value="Strom">Strom</option>
+                        <option value="Gas">Gas</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="supplier">Versorger *</label>
+                    <input type="text" id="supplier" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tariffName">Tarifname *</label>
+                    <input type="text" id="tariffName" required>
+                </div>
+            </div>
+            
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="consumptionHt">Verbrauch (kWh / Jahr) *</label>
+                    <input type="text" id="consumptionHt" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="consumptionNt">Verbrauch NT (kWh)</label>
+                    <input type="text" id="consumptionNt">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="meterNumber">Zählernummer</label>
+                <input type="text" id="meterNumber">
+            </div>
+            
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="statusCode">Status Code *</label>
+                    <div class="searchable-select" id="statusCodeContainer">
+                        <input 
+                            type="text" 
+                            id="statusCodeInput" 
+                            placeholder="Bitte wählen..." 
+                            autocomplete="off"
+                            readonly
+                            onclick="toggleStatusDropdown()"
+                            oninput="filterStatusOptions()"
+                        >
+                        <div class="dropdown-arrow" onclick="toggleStatusDropdown()">
+                            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 1.5L6 6.5L11 1.5" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="dropdown-options" id="statusDropdownOptions">
+                            <!-- Wird dynamisch befüllt -->
+                        </div>
+                        <input type="hidden" id="statusCode" name="statusCode" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="statusText">Status *</label>
+                    <input type="text" id="statusText" readonly required>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                Zusätzliche Informationen
+            </div>
+            
+            <div class="form-group">
+                <label for="actionType">Aktionstyp</label>
+                <select id="actionType">
+                    <option value="">Bitte wählen...</option>
+                    <option value="Beratung">Beratung</option>
+                    <option value="Vertragsänderung">Vertragsänderung</option>
+                    <option value="Beschwerde">Beschwerde</option>
+                    <option value="Kündigung">Kündigung</option>
+                    <option value="Rückfrage">Rückfrage</option>
+                    <option value="Sonstiges">Sonstiges</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="followUpDate">Folgetermin</label>
+                <input type="date" id="followUpDate">
+            </div>
+            
+            <div class="form-group">
+                <label for="notes">Notizen / Kommentare</label>
+                <textarea id="notes" rows="4" placeholder="Zusätzliche Bemerkungen zur Kundeninteraktion..."></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span id="submitBtnText">Daten speichern</span>
+            </button>
+            
+            <div id="statusSubmit" class="status-message"></div>
+        </form>
+    </div>
+
+    <script>
+        // ⚙️ CONFIGURATION - Hier deine n8n Webhook URLs eintragen
+        const CONFIG = {
+            lookupWebhook: 'https://workflow.kantorlab.de/webhook/kunde-lookup',
+            submitWebhook: 'https://workflow.kantorlab.de/webhook/kunde-submit'
+        };
+        
+        // 🎯 PRODUCTION READY - Backend vollständig konfiguriert
+        // ✅ Kunde Lookup: POST /webhook/kunde-lookup
+        // ✅ Kunde Submit: POST /webhook/kunde-submit  
+        // ✅ Google Sheets Integration mit ID: 12AdamhLmdim_oV6mYLWy1sx7GFU4GPrjUi_GjMVU0TU
+        // ✅ Google Drive File Upload aktiviert
+        // ✅ Automatische Order-ID Generierung (ES24-timestamp-xxx)
+        // ✅ Update/Create Logik basierend auf vorhandener Order-ID
+        // 🔗 Backend URL: workflow.kantorlab.de
+
+        // Status Code Mapping (status_code -> status_text -> status_bucket)
+        const STATUS_CODES = {
+            // Unbearbeitet
+            "500": { text: "Geparkter Auftrag", bucket: "Unbearbeitet" },
+            "510": { text: "Nachbearbeiten", bucket: "Unbearbeitet" },
+            "1000": { text: "Auftrag erfasst wartend auf Dokument", bucket: "Unbearbeitet" },
+            "1250": { text: "Auftrag wartend auf Weiterbearbeitung", bucket: "Unbearbeitet" },
+            "1251": { text: "Auftrag erfasst wartend auf Prüfung", bucket: "Unbearbeitet" },
+            "1300": { text: "Auftrag wartend auf Quality Call", bucket: "Unbearbeitet" },
+            "1360": { text: "Leer", bucket: "Unbearbeitet" },
+            "1900": { text: "PV wartend auf Weiterbearbeitung", bucket: "Unbearbeitet" },
+            
+            // In Bearbeitung
+            "1350": { text: "QC vom Partner", bucket: "In Bearbeitung" },
+            "1301": { text: "Zweiter Anwahlversuch", bucket: "In Bearbeitung" },
+            "1302": { text: "Dritter Anwahlversuch", bucket: "In Bearbeitung" },
+            "1303": { text: "Vierter Anwahlversuch", bucket: "In Bearbeitung" },
+            "1304": { text: "Fünfter Anwahlversuch", bucket: "In Bearbeitung" },
+            "1305": { text: "Sechster Anwahlversuch", bucket: "In Bearbeitung" },
+            "1325": { text: "Kunde zum Willkommensanruf nicht erreicht", bucket: "In Bearbeitung" },
+            "1400": { text: "Auftrag Quality Check bestanden", bucket: "In Bearbeitung" },
+            "1500": { text: "Bearbeitung durch VP erforderlich", bucket: "In Bearbeitung" },
+            "1501": { text: "Interne Bearbeitung", bucket: "In Bearbeitung" },
+            
+            // Fehler
+            "2050": { text: "Auftrag fehlerhaft", bucket: "Fehler" },
+            "2100": { text: "Klärfall bearbeitet", bucket: "Fehler" },
+            "2500": { text: "Klärfall beim Anbieter", bucket: "Fehler" },
+            "2600": { text: "Klärfall Nacharbeit unvollständig", bucket: "Fehler" },
+            
+            // Auftrag erfasst
+            "2000": { text: "Auftrag freigegeben", bucket: "Auftrag erfasst" },
+            "2010": { text: "Auftrag ohne Original freigegeben", bucket: "Auftrag erfasst" },
+            "3000": { text: "Erfasst", bucket: "Auftrag erfasst" },
+            "3010": { text: "DB zur Prüfung", bucket: "Auftrag erfasst" },
+            "3100": { text: "Übermittelt", bucket: "Auftrag erfasst" },
+            "3200": { text: "Wartend auf Bestellung", bucket: "Auftrag erfasst" },
+            "4000": { text: "Offen noch nicht provisionspflichtig", bucket: "Auftrag erfasst" },
+            "4100": { text: "Kunde hat Auftrag erteilt", bucket: "Auftrag erfasst" },
+            "4200": { text: "Provision in Vorbereitung", bucket: "Auftrag erfasst" },
+            "4250": { text: "In Klärung Anbieter VP", bucket: "Auftrag erfasst" },
+            "4400": { text: "Provision beim Versorger angemahnt", bucket: "Auftrag erfasst" },
+            "4600": { text: "Provision nach Lieferbeginn", bucket: "Auftrag erfasst" },
+            
+            // Abgeschlossen
+            "7000": { text: "Abgeschlossen", bucket: "Abgeschlossen" },
+            "8000": { text: "Provisioniert FP", bucket: "Abgeschlossen" },
+            
+            // Storno / Abgelehnt
+            "9000": { text: "Storno Widerruf", bucket: "Storno / Abgelehnt" },
+            "9001": { text: "Bearbeitungsfrist abgelaufen", bucket: "Storno / Abgelehnt" },
+            "9100": { text: "Storno Bonität", bucket: "Storno / Abgelehnt" },
+            "9101": { text: "Storno Quality Call negativ", bucket: "Storno / Abgelehnt" },
+            "9102": { text: "Stornonichtzahler", bucket: "Storno / Abgelehnt" },
+            "9110": { text: "Storno Rückrechnung", bucket: "Storno / Abgelehnt" },
+            "9112": { text: "Zählernummer bereits vorhanden im Anmeldeprozess", bucket: "Storno / Abgelehnt" },
+            "9113": { text: "Adressdaten falsch", bucket: "Storno / Abgelehnt" },
+            "9114": { text: "Zähler oder Kundennummer falsch", bucket: "Storno / Abgelehnt" },
+            "9115": { text: "Storno Tel Akquise", bucket: "Storno / Abgelehnt" },
+            "9116": { text: "Stromanbieter falsch", bucket: "Storno / Abgelehnt" },
+            "9117": { text: "Preise nicht mehr verfügbar", bucket: "Storno / Abgelehnt" },
+            "9118": { text: "Geburtsdatum falsch", bucket: "Storno / Abgelehnt" },
+            "9119": { text: "Storno Sperrliste", bucket: "Storno / Abgelehnt" },
+            "9120": { text: "Originalantrag nicht eingegangen liegt nicht vor", bucket: "Storno / Abgelehnt" },
+            "9130": { text: "Vertragsbindung Vorversorger zu lang", bucket: "Storno / Abgelehnt" },
+            "9140": { text: "Zähler in aktivem Vertrag", bucket: "Storno / Abgelehnt" },
+            "9150": { text: "Storno Mindestverbrauch nicht erreicht", bucket: "Storno / Abgelehnt" },
+            "9200": { text: "Storno Datenfehler", bucket: "Storno / Abgelehnt" },
+            "9201": { text: "Storno Kunde muss geänderte Preise gegenzeichnen", bucket: "Storno / Abgelehnt" },
+            "9250": { text: "Storno Versorgung abgelehnt", bucket: "Storno / Abgelehnt" },
+            "9300": { text: "Storno abgelehnt", bucket: "Storno / Abgelehnt" },
+            "9350": { text: "Storno Auszug", bucket: "Storno / Abgelehnt" },
+            "9400": { text: "Storno unbekannt", bucket: "Storno / Abgelehnt" },
+            "9500": { text: "Sperrgebiet", bucket: "Storno / Abgelehnt" },
+            "9600": { text: "Vorläufiger Storno", bucket: "Storno / Abgelehnt" },
+            "9700": { text: "Storno doppelte Eingabe", bucket: "Storno / Abgelehnt" },
+            "9800": { text: "Storno VP", bucket: "Storno / Abgelehnt" },
+            "9900": { text: "Zurückgewiesen", bucket: "Storno / Abgelehnt" },
+            "9910": { text: "Annahme verweigert", bucket: "Storno / Abgelehnt" }
+        };
+
+        // Sales Representatives Mapping (number -> name)
+        const SALES_REPS = {
+            "10001": "Anna Müller",
+            "10002": "Thomas Schmidt",
+            "10003": "Sarah Weber",
+            "10004": "Michael Fischer",
+            "10005": "Julia Becker",
+            "10006": "Stefan Wagner",
+            "10007": "Laura Hoffmann",
+            "10008": "Daniel Schulz"
+        };
+
+        // File Upload Handling
+        let uploadedFile = null;
+        
+        // Status Code Dropdown beim Laden befüllen
+        window.addEventListener('load', function() {
+            populateStatusCodeDropdown();
+            populateSalesRepDropdown();
+            setupDropdownStyling();
+            
+            // Click outside to close dropdowns
+            document.addEventListener('click', function(e) {
+                const statusContainer = document.getElementById('statusCodeContainer');
+                const salesRepContainer = document.getElementById('salesRepContainer');
+                
+                if (!statusContainer.contains(e.target)) {
+                    closeStatusDropdown();
+                }
+                
+                if (!salesRepContainer.contains(e.target)) {
+                    closeSalesRepDropdown();
+                }
+            });
+        });
+
+        // Dropdown Styling Setup
+        function setupDropdownStyling() {
+            const selectFields = document.querySelectorAll('select');
+            
+            selectFields.forEach(select => {
+                // Initial styling
+                updateSelectStyling(select);
+                
+                // Event listener für Änderungen
+                select.addEventListener('change', () => {
+                    updateSelectStyling(select);
+                });
+            });
+        }
+
+        function updateSelectStyling(select) {
+            if (select.value === '' || select.value === null) {
+                select.style.color = '#9ca3af'; // Grau für Placeholder
+            } else {
+                select.style.color = '#374151'; // Normal für ausgewählte Werte
+            }
+        }
+
+        // Status Code Dropdown befüllen
+        function populateStatusCodeDropdown() {
+            const optionsContainer = document.getElementById('statusDropdownOptions');
+            
+            // Sortiere Status Codes numerisch
+            const sortedCodes = Object.keys(STATUS_CODES).sort((a, b) => parseInt(a) - parseInt(b));
+            
+            // Erstelle Optionen im Format "CODE – TEXT"
+            sortedCodes.forEach(code => {
+                const option = document.createElement('div');
+                option.className = 'dropdown-option';
+                option.textContent = `${code} – ${STATUS_CODES[code].text}`;
+                option.dataset.code = code;
+                option.dataset.text = STATUS_CODES[code].text;
+                option.onclick = () => selectStatusOption(code, `${code} – ${STATUS_CODES[code].text}`);
+                optionsContainer.appendChild(option);
+            });
+        }
+
+        // Status Code Dropdown öffnen/schließen
+        function toggleStatusDropdown() {
+            const dropdown = document.getElementById('statusDropdownOptions');
+            const arrow = document.querySelector('.dropdown-arrow');
+            const input = document.getElementById('statusCodeInput');
+            
+            if (dropdown.classList.contains('show')) {
+                closeStatusDropdown();
+            } else {
+                dropdown.classList.add('show');
+                arrow.classList.add('rotated');
+                input.classList.add('dropdown-open');
+                input.removeAttribute('readonly');
+                input.focus();
+                // Filter zurücksetzen
+                filterStatusOptions();
+            }
+        }
+
+        // Status Code Dropdown schließen
+        function closeStatusDropdown() {
+            const dropdown = document.getElementById('statusDropdownOptions');
+            const arrow = document.querySelector('.dropdown-arrow');
+            const input = document.getElementById('statusCodeInput');
+            
+            dropdown.classList.remove('show');
+            arrow.classList.remove('rotated');
+            input.classList.remove('dropdown-open');
+            input.setAttribute('readonly', 'readonly');
+        }
+
+        // Status Code Option auswählen
+        function selectStatusOption(code, displayText) {
+            const input = document.getElementById('statusCodeInput');
+            const hiddenInput = document.getElementById('statusCode');
+            
+            input.value = displayText;
+            hiddenInput.value = code;
+            
+            closeStatusDropdown();
+            updateStatusFromCode();
+        }
+
+        // Status Code Optionen filtern
+        function filterStatusOptions() {
+            const searchText = document.getElementById('statusCodeInput').value.toLowerCase();
+            const options = document.querySelectorAll('.dropdown-option');
+            
+            options.forEach(option => {
+                const optionText = option.textContent.toLowerCase();
+                const matches = optionText.includes(searchText);
+                option.classList.toggle('hidden', !matches);
+            });
+        }
+
+        // Keyboard Navigation für Status Code Input
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('statusCodeInput');
+            
+            input.addEventListener('keydown', function(e) {
+                const dropdown = document.getElementById('statusDropdownOptions');
+                
+                if (e.key === 'Escape') {
+                    closeStatusDropdown();
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    // Erste sichtbare Option auswählen
+                    const firstVisible = dropdown.querySelector('.dropdown-option:not(.hidden)');
+                    if (firstVisible) {
+                        const code = firstVisible.dataset.code;
+                        const text = firstVisible.textContent;
+                        selectStatusOption(code, text);
+                    }
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (!dropdown.classList.contains('show')) {
+                        toggleStatusDropdown();
+                    }
+                }
+            });
+        });
+
+        // Status automatisch ausfüllen wenn Status Code gewählt wird
+        function updateStatusFromCode() {
+            const hiddenInput = document.getElementById('statusCode');
+            const statusInput = document.getElementById('statusText');
+            const selectedCode = hiddenInput.value;
+            
+            if (selectedCode && STATUS_CODES[selectedCode]) {
+                statusInput.value = STATUS_CODES[selectedCode].bucket;
+            } else {
+                statusInput.value = '';
+            }
+        }
+
+        // Sales Rep Dropdown befüllen
+        function populateSalesRepDropdown() {
+            const optionsContainer = document.getElementById('salesRepDropdownOptions');
+            
+            // Erstelle Optionen für alle Vertriebler
+            Object.entries(SALES_REPS).forEach(([number, name]) => {
+                const option = document.createElement('div');
+                option.className = 'dropdown-option';
+                option.textContent = name;
+                option.dataset.number = number;
+                option.dataset.name = name;
+                option.onclick = () => selectSalesRepOption(number, name);
+                optionsContainer.appendChild(option);
+            });
+        }
+
+        // Sales Rep Name von Nummer Update
+        function updateSalesRepName() {
+            const numberSelect = document.getElementById('salesRepNumber');
+            const nameInput = document.getElementById('salesRepNameInput');
+            const hiddenInput = document.getElementById('salesRepName');
+            
+            const selectedNumber = numberSelect.value;
+            if (selectedNumber && SALES_REPS[selectedNumber]) {
+                const name = SALES_REPS[selectedNumber];
+                nameInput.value = name;
+                hiddenInput.value = name;
+            } else {
+                nameInput.value = '';
+                hiddenInput.value = '';
+            }
+            updateSelectStyling(numberSelect);
+        }
+
+        // Sales Rep Nummer von Name Update
+        function updateSalesRepNumber(selectedNumber) {
+            const numberSelect = document.getElementById('salesRepNumber');
+            numberSelect.value = selectedNumber || '';
+            updateSelectStyling(numberSelect);
+        }
+
+        // Sales Rep Dropdown öffnen/schließen
+        function toggleSalesRepDropdown() {
+            const dropdown = document.getElementById('salesRepDropdownOptions');
+            const arrow = document.querySelector('#salesRepContainer .dropdown-arrow');
+            const input = document.getElementById('salesRepNameInput');
+            
+            if (dropdown.classList.contains('show')) {
+                closeSalesRepDropdown();
+            } else {
+                dropdown.classList.add('show');
+                arrow.classList.add('rotated');
+                input.classList.add('dropdown-open');
+                input.removeAttribute('readonly');
+                input.focus();
+                
+                // Alle Optionen anzeigen beim Öffnen
+                const options = dropdown.querySelectorAll('.dropdown-option');
+                options.forEach(option => option.style.display = 'block');
+            }
+        }
+
+        // Sales Rep Dropdown schließen
+        function closeSalesRepDropdown() {
+            const dropdown = document.getElementById('salesRepDropdownOptions');
+            const arrow = document.querySelector('#salesRepContainer .dropdown-arrow');
+            const input = document.getElementById('salesRepNameInput');
+            
+            dropdown.classList.remove('show');
+            arrow.classList.remove('rotated');
+            input.classList.remove('dropdown-open');
+            input.setAttribute('readonly', true);
+        }
+
+        // Sales Rep Option auswählen
+        function selectSalesRepOption(number, name) {
+            const input = document.getElementById('salesRepNameInput');
+            const hiddenInput = document.getElementById('salesRepName');
+            
+            input.value = name;
+            hiddenInput.value = name;
+            
+            // Update auch die Nummer
+            updateSalesRepNumber(number);
+            
+            closeSalesRepDropdown();
+        }
+
+        // Sales Rep Optionen filtern
+        function filterSalesRepOptions() {
+            const input = document.getElementById('salesRepNameInput');
+            const dropdown = document.getElementById('salesRepDropdownOptions');
+            const filter = input.value.toLowerCase();
+            const options = dropdown.querySelectorAll('.dropdown-option');
+            
+            options.forEach(option => {
+                const name = option.textContent.toLowerCase();
+                const number = option.dataset.number.toLowerCase();
+                
+                if (name.includes(filter) || number.includes(filter)) {
+                    option.style.display = 'block';
+                } else {
+                    option.style.display = 'none';
+                }
+            });
+        }
+
+        // Keyboard Navigation für Sales Rep Dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('salesRepNameInput');
+            const dropdown = document.getElementById('salesRepDropdownOptions');
+            
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeSalesRepDropdown();
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const visibleOptions = dropdown.querySelectorAll('.dropdown-option[style*="block"], .dropdown-option:not([style])');
+                    if (visibleOptions.length > 0) {
+                        const firstOption = visibleOptions[0];
+                        const number = firstOption.dataset.number;
+                        const name = firstOption.dataset.name;
+                        selectSalesRepOption(number, name);
+                    }
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (!dropdown.classList.contains('show')) {
+                        toggleSalesRepDropdown();
+                    }
+                }
+            });
+        });
+        
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileInput = document.getElementById('fileUpload');
+        const filePreview = document.getElementById('filePreview');
+        const fileUploadContent = fileUploadArea.querySelector('.file-upload-content');
+        
+        // Click to upload
+        fileUploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        // Highlight drop area when dragging over
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, () => {
+                fileUploadArea.classList.add('dragover');
+            });
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, () => {
+                fileUploadArea.classList.remove('dragover');
+            });
+        });
+        
+        // Handle dropped files
+        fileUploadArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+        
+        // Handle selected files
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+        
+        function handleFile(file) {
+            // Validate file type
+            const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg'];
+            if (!validTypes.includes(file.type)) {
+                alert('Bitte nur PDF oder JPEG Dateien hochladen.');
+                return;
+            }
+            
+            // Validate file size (10MB)
+            const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+            if (file.size > maxSize) {
+                alert('Datei ist zu groß. Maximum 10MB erlaubt.');
+                return;
+            }
+            
+            uploadedFile = file;
+            
+            // Show preview
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = formatFileSize(file.size);
+            fileUploadContent.style.display = 'none';
+            filePreview.style.display = 'flex';
+        }
+        
+        function removeFile() {
+            uploadedFile = null;
+            fileInput.value = '';
+            fileUploadContent.style.display = 'flex';
+            filePreview.style.display = 'none';
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+        
+        // Convert file to base64 for sending to n8n
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+        
+        // Error Handling für Search Fields
+        function showFieldError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            field.classList.add('input-error', 'error-tooltip');
+            field.setAttribute('data-error', message);
+        }
+        
+        function clearFieldErrors() {
+            const errorFields = document.querySelectorAll('.input-error');
+            errorFields.forEach(field => {
+                field.classList.remove('input-error', 'error-tooltip');
+                field.removeAttribute('data-error');
+            });
+        }
+
+        // Demo-Daten für Preview (wird durch echte n8n Integration ersetzt)
+        const DEMO_CUSTOMERS = [
+            {
+                order_id: "12345",
+                customer_salutation: "Herr",
+                customer_first_name: "Max",
+                customer_last_name: "Mustermann",
+                street: "Musterstraße 123",
+                zip: "12345",
+                city: "Berlin",
+                phone: "+49 30 12345678",
+                email: "max.mustermann@email.de",
+                birthdate: "1980-05-15",
+                sales_rep_number: "10001",
+                sales_rep_name: "Anna Müller",
+                campaign: "Door-to-Door",
+                record_date: "2024-01-15",
+                product_type: "Strom",
+                supplier: "Vattenfall",
+                tariff_name: "Ökostrom Plus",
+                consumption_ht: "3500",
+                consumption_nt: "1200",
+                meter_number: "12345678901",
+                status_code: "4100",
+                status_text: "Kunde hat Auftrag erteilt"
+            },
+            {
+                order_id: "67890",
+                customer_salutation: "Frau",
+                customer_first_name: "Maria",
+                customer_last_name: "Schmidt",
+                street: "Hauptstraße 45",
+                zip: "80331",
+                city: "München",
+                phone: "+49 89 87654321",
+                email: "maria.schmidt@email.de",
+                birthdate: "1975-08-22",
+                sales_rep_number: "10003",
+                sales_rep_name: "Sarah Weber",
+                campaign: "Empfehlung",
+                record_date: "2024-02-10",
+                product_type: "Gas",
+                supplier: "E.ON",
+                tariff_name: "Gas Komfort",
+                consumption_ht: "12000",
+                consumption_nt: "0",
+                meter_number: "98765432109",
+                status_code: "1251",
+                status_text: "Auftrag erfasst wartend auf Prüfung"
+            }
+        ];
+
+        // Lookup Funktion
+        async function lookupCustomer() {
+            const searchOrderId = document.getElementById('searchOrderId').value.trim();
+            const searchName = document.getElementById('searchName').value.trim();
+            const statusDiv = document.getElementById('statusLookup');
+            const searchBtn = document.getElementById('searchBtnText');
+            
+            // Clear previous errors
+            clearFieldErrors();
+            statusDiv.style.display = 'none';
+            
+            if (!searchOrderId && !searchName) {
+                showFieldError('searchOrderId', 'Auftragsnummer eingeben');
+                showFieldError('searchName', 'Name eingeben');
+                return;
+            }
+            
+            // Loading State
+            searchBtn.innerHTML = '<span class="loading"></span> Suche läuft...';
+            
+            try {
+                const response = await fetch(CONFIG.lookupWebhook, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        search_order_id: searchOrderId || null,
+                        search_name: searchName || null
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.customer) {
+                    fillForm(data.customer);
+                    showCustomerCard(data.customer);
+                    showStatus(statusDiv, data.message, 'success');
+                } else {
+                    // Felder rot markieren je nachdem was gesucht wurde
+                    if (searchOrderId) {
+                        showFieldError('searchOrderId', 'Auftragsnummer nicht gefunden');
+                    }
+                    if (searchName) {
+                        showFieldError('searchName', 'Kunde nicht gefunden');
+                    }
+                    clearForm();
+                    showStatus(statusDiv, data.message || 'Kunde nicht gefunden', 'error');
+                }
+            } catch (error) {
+                console.error('Lookup Error:', error);
+                showStatus(statusDiv, 'Fehler bei der Suche. Bitte versuche es erneut.', 'error');
+                
+                // Felder rot markieren
+                if (searchOrderId) {
+                    showFieldError('searchOrderId', 'Verbindungsfehler');
+                }
+                if (searchName) {
+                    showFieldError('searchName', 'Verbindungsfehler');
+                }
+                clearForm();
+            } finally {
+                searchBtn.textContent = 'Kunde suchen';
+            }
+        }
+
+        // Formular ausfüllen
+        function fillForm(customer) {
+            document.getElementById('orderId').value = customer.order_id || '';
+            
+            // Anrede - Select Element
+            const salutationSelect = document.getElementById('customerSalutation');
+            salutationSelect.value = customer.customer_salutation || '';
+            updateSelectStyling(salutationSelect);
+            
+            document.getElementById('firstName').value = customer.customer_first_name || '';
+            document.getElementById('lastName').value = customer.customer_last_name || '';
+            document.getElementById('street').value = customer.street || '';
+            document.getElementById('zip').value = customer.zip || '';
+            document.getElementById('city').value = customer.city || '';
+            document.getElementById('phone').value = customer.phone || '';
+            document.getElementById('email').value = customer.email || '';
+            document.getElementById('birthdate').value = customer.birthdate || '';
+            
+            // Zuweisung Felder
+            if (customer.sales_rep_number) {
+                const salesRepNumberSelect = document.getElementById('salesRepNumber');
+                salesRepNumberSelect.value = customer.sales_rep_number;
+                updateSelectStyling(salesRepNumberSelect);
+                updateSalesRepName(); // Name automatisch ausfüllen
+            }
+            if (customer.sales_rep_name && !customer.sales_rep_number) {
+                // Wenn nur Name vorhanden ist, Name setzen und Nummer suchen
+                document.getElementById('salesRepNameInput').value = customer.sales_rep_name;
+                document.getElementById('salesRepName').value = customer.sales_rep_name;
+                // Nummer finden und setzen
+                for (const [number, name] of Object.entries(SALES_REPS)) {
+                    if (name === customer.sales_rep_name) {
+                        const salesRepNumberSelect = document.getElementById('salesRepNumber');
+                        salesRepNumberSelect.value = number;
+                        updateSelectStyling(salesRepNumberSelect);
+                        break;
+                    }
+                }
+            }
+            const campaignSelect = document.getElementById('campaign');
+            campaignSelect.value = customer.campaign || '';
+            updateSelectStyling(campaignSelect);
+            document.getElementById('recordDate').value = customer.record_date || '';
+            
+            // Produkttyp - Select Element
+            const productTypeSelect = document.getElementById('productType');
+            productTypeSelect.value = customer.product_type || '';
+            updateSelectStyling(productTypeSelect);
+            
+            document.getElementById('supplier').value = customer.supplier || '';
+            document.getElementById('tariffName').value = customer.tariff_name || '';
+            document.getElementById('consumptionHt').value = customer.consumption_ht || '';
+            document.getElementById('consumptionNt').value = customer.consumption_nt || '';
+            document.getElementById('meterNumber').value = customer.meter_number || '';
+            
+            // Status Code - Searchable Dropdown
+            const statusCode = customer.status_code || '';
+            if (statusCode && STATUS_CODES[statusCode]) {
+                const displayText = `${statusCode} – ${STATUS_CODES[statusCode].text}`;
+                document.getElementById('statusCodeInput').value = displayText;
+                document.getElementById('statusCode').value = statusCode;
+            } else {
+                document.getElementById('statusCodeInput').value = '';
+                document.getElementById('statusCode').value = '';
+            }
+            
+            // Status automatisch ausfüllen basierend auf Status Code
+            updateStatusFromCode();
+        }
+
+        // Customer Card anzeigen
+        function showCustomerCard(customer) {
+            const card = document.getElementById('customerCard');
+            const infoDiv = document.getElementById('customerInfo');
+            
+            infoDiv.innerHTML = `
+                <div class="info-item">
+                    <span class="info-label">Name</span>
+                    <span class="info-value">${customer.customer_salutation || ''} ${customer.customer_first_name} ${customer.customer_last_name}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Bestellnummer</span>
+                    <span class="info-value">${customer.order_id}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Stadt</span>
+                    <span class="info-value">${customer.zip} ${customer.city}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">E-Mail</span>
+                    <span class="info-value">${customer.email || '-'}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Produkt</span>
+                    <span class="info-value">${customer.product_type || '-'}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Status</span>
+                    <span class="info-value">${customer.status_text || '-'}</span>
+                </div>
+            `;
+            
+            card.classList.add('show');
+        }
+
+        // Form Submit
+        document.getElementById('mainForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const statusDiv = document.getElementById('statusSubmit');
+            const submitBtn = document.getElementById('submitBtn');
+            const submitBtnText = document.getElementById('submitBtnText');
+            
+            // Daten sammeln
+            const formData = {
+                // Kundendaten
+                order_id: document.getElementById('orderId').value,
+                customer_salutation: document.getElementById('customerSalutation').value,
+                customer_first_name: document.getElementById('firstName').value,
+                customer_last_name: document.getElementById('lastName').value,
+                street: document.getElementById('street').value,
+                zip: document.getElementById('zip').value,
+                city: document.getElementById('city').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                birthdate: document.getElementById('birthdate').value,
+                // Zuweisung
+                sales_rep_number: document.getElementById('salesRepNumber').value,
+                sales_rep_name: document.getElementById('salesRepName').value,
+                campaign: document.getElementById('campaign').value,
+                record_date: document.getElementById('recordDate').value,
+                // Vertragsdetails
+                product_type: document.getElementById('productType').value,
+                supplier: document.getElementById('supplier').value,
+                tariff_name: document.getElementById('tariffName').value,
+                consumption_ht: document.getElementById('consumptionHt').value,
+                consumption_nt: document.getElementById('consumptionNt').value,
+                meter_number: document.getElementById('meterNumber').value,
+                status_code: document.getElementById('statusCode').value,
+                status_text: document.getElementById('statusText').value,
+                // Zusätzliche Daten
+                action_type: document.getElementById('actionType').value,
+                follow_up_date: document.getElementById('followUpDate').value,
+                notes: document.getElementById('notes').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // File Upload hinzufügen (falls vorhanden)
+            if (uploadedFile) {
+                formData.has_file = true;
+                formData.file_name = uploadedFile.name;
+                formData.file_type = uploadedFile.type;
+                formData.file_size = uploadedFile.size;
+                // Base64 encoding wird im echten Workflow gemacht
+            }
+            
+            // Loading State
+            submitBtn.disabled = true;
+            submitBtnText.innerHTML = '<span class="loading"></span> Speichere...';
+            
+            try {
+                // Wenn File vorhanden, zu Base64 konvertieren
+                if (uploadedFile) {
+                    const base64File = await fileToBase64(uploadedFile);
+                    formData.file_data = base64File;
+                }
+                
+                const response = await fetch(CONFIG.submitWebhook, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const fileMsg = uploadedFile ? ` (inkl. Datei: ${uploadedFile.name})` : '';
+                    showStatus(statusDiv, data.message || `Daten erfolgreich gespeichert!${fileMsg}`, 'success');
+                    
+                    // Formular nach 2 Sekunden zurücksetzen
+                    setTimeout(() => {
+                        resetCompleteForm();
+                    }, 2000);
+                } else {
+                    showStatus(statusDiv, 'Fehler beim Speichern: ' + (data.message || 'Unbekannter Fehler'), 'error');
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Submit Error:', error);
+                showStatus(statusDiv, 'Fehler beim Speichern. Bitte versuche es erneut.', 'error');
+                submitBtn.disabled = false;
+            } finally {
+                submitBtnText.textContent = 'Daten speichern';
+            }
+        });
+
+        // Enter Key für Lookup
+        document.getElementById('searchOrderId').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                lookupCustomer();
+            }
+        });
+        
+        document.getElementById('searchName').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                lookupCustomer();
+            }
+        });
+
+        // Helper Functions
+        function showStatus(element, message, type) {
+            element.textContent = message;
+            element.className = `status-message ${type}`;
+            element.style.display = 'block';
+        }
+
+        function clearForm() {
+            const formFields = [
+                'orderId', 'firstName', 'lastName', 
+                'street', 'zip', 'city', 'phone', 'email', 'birthdate',
+                'supplier', 'tariffName', 'consumptionHt', 'consumptionNt',
+                'meterNumber', 'statusText', 'recordDate', 'followUpDate', 'notes'
+            ];
+            
+            formFields.forEach(field => {
+                document.getElementById(field).value = '';
+            });
+            
+            // Selects zurücksetzen
+            const selectFields = ['customerSalutation', 'productType', 'salesRepNumber', 'campaign', 'actionType'];
+            selectFields.forEach(field => {
+                const select = document.getElementById(field);
+                select.value = '';
+                updateSelectStyling(select);
+            });
+            
+            // Status Code Searchable Dropdown zurücksetzen
+            document.getElementById('statusCodeInput').value = '';
+            document.getElementById('statusCode').value = '';
+            closeStatusDropdown();
+            
+            // Sales Rep Searchable Dropdown zurücksetzen
+            document.getElementById('salesRepNameInput').value = '';
+            document.getElementById('salesRepName').value = '';
+            closeSalesRepDropdown();
+            
+            document.getElementById('customerCard').classList.remove('show');
+        }
+
+        function resetCompleteForm() {
+            document.getElementById('mainForm').reset();
+            document.getElementById('searchOrderId').value = '';
+            document.getElementById('searchName').value = '';
+            clearForm();
+            clearFieldErrors(); // Field-Errors auch löschen
+            removeFile(); // File Upload zurücksetzen
+            document.getElementById('statusLookup').style.display = 'none';
+            document.getElementById('statusSubmit').style.display = 'none';
+        }
+        
+        // Enter Key für Lookup
+        document.getElementById('searchOrderId').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                lookupCustomer();
+            }
+        });
+        
+        document.getElementById('searchName').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                lookupCustomer();
+            }
+        });
+        
+        // Clear errors when user starts typing
+        document.getElementById('searchOrderId').addEventListener('input', () => {
+            clearFieldErrors();
+        });
+        
+        document.getElementById('searchName').addEventListener('input', () => {
+            clearFieldErrors();
+        });
+    </script>
+</body>
+</html>
