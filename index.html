@@ -1442,6 +1442,9 @@
         function handleFile(file) {
             // Validate file type
             const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg'];
+            const imageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+   const isScreenshot = imageTypes.includes(file.type);
+            
             if (!validTypes.includes(file.type)) {
                 alert('Bitte nur PDF oder JPEG Dateien hochladen.');
                 return;
@@ -1460,7 +1463,10 @@
             document.getElementById('fileName').textContent = file.name;
             document.getElementById('fileSize').textContent = formatFileSize(file.size);
             fileUploadContent.style.display = 'none';
-            filePreview.style.display = 'flex';
+            if (isScreenshot) {
+       console.log('📸 Screenshot erkannt, starte Auto-Fill...');
+       processScreenshotAutoFill(file);
+   }
         }
         
         function removeFile() {
@@ -1908,6 +1914,10 @@
         document.getElementById('searchName').addEventListener('input', () => {
             clearFieldErrors();
         });
+
+         // Copy kompletten Code aus energyscout24-screenshot-integration.js
+   // ALLE Funktionen ab "async function processScreenshotAutoFill"
+        
     </script>
 </body>
 </html>
