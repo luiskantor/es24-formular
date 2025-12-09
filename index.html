@@ -997,12 +997,14 @@
         // ⚙️ CONFIGURATION - Hier deine n8n Webhook URLs eintragen
         const CONFIG = {
             lookupWebhook: 'https://workflow.kantorlab.de/webhook/kunde-lookup',
-            submitWebhook: 'https://workflow.kantorlab.de/webhook/kunde-submit'
+            submitWebhook: 'https://workflow.kantorlab.de/webhook/kunde-submit',
+            extractWebhook: 'https://workflow.kantorlab.de/webhook/screenshot-extract'
         };
         
         // 🎯 PRODUCTION READY - Backend vollständig konfiguriert
         // ✅ Kunde Lookup: POST /webhook/kunde-lookup
-        // ✅ Kunde Submit: POST /webhook/kunde-submit  
+        // ✅ Kunde Submit: POST /webhook/kunde-submit
+        // ✅ Screenshot Extract: POST /webhook/screenshot-extract (OCR/AI Datenextraktion)
         // ✅ Google Sheets Integration mit ID: 12AdamhLmdim_oV6mYLWy1sx7GFU4GPrjUi_GjMVU0TU
         // ✅ Google Drive File Upload aktiviert
         // ✅ Automatische Order-ID Generierung (ES24-timestamp-xxx)
@@ -1449,24 +1451,130 @@
                 alert('Bitte nur PDF,PNG oder JPEG Dateien hochladen.');
                 return;
             }
-            
+
             // Validate file size (10MB)
             const maxSize = 10 * 1024 * 1024; // 10MB in bytes
             if (file.size > maxSize) {
                 alert('Datei ist zu groß. Maximum 10MB erlaubt.');
                 return;
             }
-            
+
             uploadedFile = file;
-            
+
             // Show preview
             document.getElementById('fileName').textContent = file.name;
             document.getElementById('fileSize').textContent = formatFileSize(file.size);
             fileUploadContent.style.display = 'none';
-            if (isScreenshot) {
-       console.log('📸 Screenshot erkannt, starte Auto-Fill...');
-       processScreenshotAutoFill(file);
-   }
+            filePreview.style.display = 'flex';
+
+            // Automatisch Daten aus der Datei extrahieren
+            extractDataFromFile(file);
+        }
+
+        // Daten aus hochgeladener Datei extrahieren (OCR/AI)
+        async function extractDataFromFile(file) {
+            const statusDiv = document.getElementById('statusLookup');
+            const fileNameSpan = document.getElementById('fileName');
+            const originalFileName = fileNameSpan.textContent;
+
+            // Loading State anzeigen
+            fileNameSpan.innerHTML = `${originalFileName} <span class="loading"></span> <span style="color: #667eea; font-size: 12px;">Daten werden extrahiert...</span>`;
+
+            try {
+                // File zu Base64 konvertieren
+                const base64File = await fileToBase64(file);
+
+                const response = await fetch(CONFIG.extractWebhook, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        file_data: base64File,
+                        file_name: file.name,
+                        file_type: file.type
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.data) {
+                    // Extrahierte Daten ins Formular eintragen
+                    fillFormFromExtraction(data.data);
+                    fileNameSpan.innerHTML = `${originalFileName} <span style="color: #10b981; font-size: 12px;">✓ Daten extrahiert</span>`;
+                    showStatus(statusDiv, 'Daten wurden erfolgreich aus der Datei extrahiert.', 'success');
+                } else {
+                    fileNameSpan.textContent = originalFileName;
+                    showStatus(statusDiv, data.message || 'Daten konnten nicht extrahiert werden. Bitte manuell ausfüllen.', 'info');
+                }
+            } catch (error) {
+                console.error('Extract Error:', error);
+                fileNameSpan.textContent = originalFileName;
+                showStatus(statusDiv, 'Fehler bei der Datenextraktion. Bitte manuell ausfüllen.', 'info');
+            }
+        }
+
+        // Formular mit extrahierten Daten füllen (nur nicht-leere Felder)
+        function fillFormFromExtraction(data) {
+            // Mapping von API-Feldern zu Formular-IDs
+            const fieldMapping = {
+                order_id: 'orderId',
+                customer_salutation: 'customerSalutation',
+                customer_first_name: 'firstName',
+                customer_last_name: 'lastName',
+                street: 'street',
+                zip: 'zip',
+                city: 'city',
+                phone: 'phone',
+                email: 'email',
+                birthdate: 'birthdate',
+                sales_rep_number: 'salesRepNumber',
+                campaign: 'campaign',
+                record_date: 'recordDate',
+                product_type: 'productType',
+                supplier: 'supplier',
+                tariff_name: 'tariffName',
+                consumption_ht: 'consumptionHt',
+                consumption_nt: 'consumptionNt',
+                meter_number: 'meterNumber',
+                action_type: 'actionType',
+                follow_up_date: 'followUpDate',
+                notes: 'notes'
+            };
+
+            // Felder befüllen
+            Object.entries(fieldMapping).forEach(([apiField, formId]) => {
+                if (data[apiField] && data[apiField].toString().trim() !== '') {
+                    const element = document.getElementById(formId);
+                    if (element) {
+                        element.value = data[apiField];
+
+                        // Select-Styling aktualisieren
+                        if (element.tagName === 'SELECT') {
+                            updateSelectStyling(element);
+                        }
+                    }
+                }
+            });
+
+            // Sales Rep Name aktualisieren wenn Nummer gesetzt wurde
+            if (data.sales_rep_number) {
+                updateSalesRepName();
+            }
+
+            // Sales Rep Name direkt setzen wenn vorhanden
+            if (data.sales_rep_name) {
+                document.getElementById('salesRepNameInput').value = data.sales_rep_name;
+                document.getElementById('salesRepName').value = data.sales_rep_name;
+            }
+
+            // Status Code (Searchable Dropdown)
+            if (data.status_code && STATUS_CODES[data.status_code]) {
+                const displayText = `${data.status_code} – ${STATUS_CODES[data.status_code].text}`;
+                document.getElementById('statusCodeInput').value = displayText;
+                document.getElementById('statusCode').value = data.status_code;
+                updateStatusFromCode();
+            }
         }
         
         function removeFile() {
